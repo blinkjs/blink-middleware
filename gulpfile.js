@@ -29,6 +29,8 @@ gulp.task('clean', function() {
 		.pipe(clean());
 });
 
+gulp.task('build', ['ts']);
+
 gulp.task('ts', ['clean', 'ts']);
 
 gulp.task('ts', function() {
