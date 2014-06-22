@@ -39,7 +39,7 @@ app.use(express.static(__dirname + '/public'));
 ### TypeScript
 
 See the TypeScript definition file at
-[blink-middleware.d.ts](/blinkjs/blink-middleware/blob/master/blink-middleware.d.ts).
+[blink-middleware.d.ts](https://github.com/blinkjs/blink-middleware/blob/master/blink-middleware.d.ts).
 
 ```ts
 ///<reference path="./node_modules/blink-middleware/blink-middleware.d.ts"/>
