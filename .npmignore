@@ -1,0 +1,9 @@
+bower_components/
+lib/
+test/
+.travis.yml
+.editorconfig
+*.sln*
+bower.json
+gulpfile.js
+tslint.json
