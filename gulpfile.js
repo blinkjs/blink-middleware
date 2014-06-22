@@ -18,8 +18,8 @@ var paths = {
 			css: ['js/test/fixtures/*.css']
 		},
 		spec: {
-			ts: ['test/spec/**/*.ts'],
-			js: ['js/test/*.js', 'js/test/spec/**/*.js']
+			ts: ['test/spec/**/*.spec.ts'],
+			js: ['js/test/spec/**/*.spec.js']
 		}
 	}
 };
