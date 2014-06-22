@@ -1,5 +1,3 @@
-<img src="https://github.com/blinkjs/blink/blob/master/artwork/blink_256_nobg.png?raw=true" width="256" height="256" alt="blink" align="right">
-
 #blink-middleware
 
 > [Blink](https://github.com/blinkjs/blink) middleware for Express.
