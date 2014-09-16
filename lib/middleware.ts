@@ -1,13 +1,16 @@
 ﻿///<reference path="../node_modules/blink/blink.d.ts"/>
+///<reference path="../node_modules/blink/bower_components/dt-vinyl/vinyl.d.ts"/>
 import b = require('blink');
 import fs = require('fs');
 import path = require('path');
+var through = require('through2');
 import url = require('url');
+var vfs = require('vinyl-fs');
 
 
 function middleware(source, options?: {
 	dest?: string;
-	compiler?: b.IConfigurationOptions;
+	compiler?: b.ConfigurationOptions;
 }) {
 	options = options || {};
 
@@ -21,7 +24,7 @@ function middleware(source, options?: {
 		}
 	}
 
-	function blink(req, res, next) {
+	return (req, res, next) => {
 
 		switch (req.method) {
 			case 'GET':
@@ -41,22 +44,24 @@ function middleware(source, options?: {
 
 		filepath = path.join(source, path.basename(filepath, '.css') + '.js');
 
-		b.compile(options.compiler, [filepath], (err, config, file) => {
-			if (err) {
+		vfs.src(filepath)
+			.pipe(b.compile(options.compiler))
+			.on('error', (err: Error) => {
 				next(err);
 				return;
-			}
-			var dest = file.dest;
-			if (options.dest) {
-				dest = path.join(options.dest, path.basename(file.dest));
-			}
-			fs.writeFile(dest, file.contents, err2 => {
-				next(err2);
+			})
+			.pipe((() => {
+				return through.obj(function(file, enc, done) {
+					res.type('css');
+					res.send(file.contents);
+					this.push(file);
+					done();
+				});
+			})())
+			.on('end', () => {
+				next();
 			});
-		});
 	}
-
-	return blink;
 }
 
 export = middleware;
