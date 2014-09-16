@@ -1,6 +1,6 @@
 {
   "name": "blink-middleware",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Blink middleware for Express.",
   "main": "js/lib/middleware.js",
   "scripts": {
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "blink": "^3",
-    "through2": "^0.6.1",
+    "through2": "^1.1.1",
     "vinyl-fs": "^0.3.7"
   }
 }
