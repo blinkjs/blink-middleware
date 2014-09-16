@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 
-var clean = require('gulp-clean');
+var del = require('del');
 var fs = require('fs');
 var tsc = require('gulp-tsc');
 var mocha = require('gulp-mocha');
@@ -24,9 +24,8 @@ var paths = {
 	}
 };
 
-gulp.task('clean', function() {
-	return gulp.src(['js', 'd.ts', 'dist'], { read: false })
-		.pipe(clean());
+gulp.task('clean', function(done) {
+  del(['js', 'd.ts', 'dist'], done);
 });
 
 gulp.task('build', ['ts']);
