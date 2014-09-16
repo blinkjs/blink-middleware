@@ -1,6 +1,6 @@
 {
   "name": "blink-middleware",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Blink middleware for Express.",
   "main": "js/lib/middleware.js",
   "scripts": {
