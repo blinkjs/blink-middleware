@@ -1,16 +1,15 @@
 ﻿///<reference path="../node_modules/blink/blink.d.ts"/>
-///<reference path="../node_modules/blink/bower_components/dt-vinyl/vinyl.d.ts"/>
-import b = require('blink');
+import blink = require('blink');
 import fs = require('fs');
 import path = require('path');
 var through = require('through2');
 import url = require('url');
 var vfs = require('vinyl-fs');
 
-
+// ReSharper disable once UnusedLocals
 function middleware(source, options?: {
 	dest?: string;
-	compiler?: b.ConfigurationOptions;
+	compiler?: blink.ConfigurationOptions;
 }) {
 	options = options || {};
 
@@ -24,44 +23,44 @@ function middleware(source, options?: {
 		}
 	}
 
-	return (req, res, next) => {
+	return (request, response, doneWithRequest) => {
 
-		switch (req.method) {
+		switch (request.method) {
 			case 'GET':
 			case 'HEAD':
 				break;
 			default:
-				next();
+				doneWithRequest();
 				return;
 		}
 
-		var filepath = url.parse(req.url).pathname;
+		var filepath = url.parse(request.url).pathname;
 
 		if (path.extname(filepath) !== '.css') {
-			next();
+			doneWithRequest();
 			return;
 		}
 
 		filepath = path.join(source, path.basename(filepath, '.css') + '.js');
 
 		vfs.src(filepath)
-			.pipe(b.compile(options.compiler))
+			.pipe(blink(options.compiler))
 			.on('error', (err: Error) => {
-				next(err);
+				doneWithRequest(err);
 				return;
 			})
 			.pipe((() => {
-				return through.obj(function(file, enc, done) {
-					res.type('css');
-					res.send(file.contents);
+				return through.obj(function(file, enc, doneWithFile) {
+					response.type('css');
+					response.send(file.contents.toString(enc));
 					this.push(file);
-					done();
+					doneWithFile();
 				});
 			})())
 			.on('end', () => {
-				next();
+				doneWithRequest();
 			});
-	}
+	};
 }
 
 export = middleware;

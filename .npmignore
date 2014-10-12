@@ -1,8 +1,9 @@
-bower_components/
+bower_components/dt-mocha
+js/test/
 lib/
+tasks/
 test/
-.travis.yml
-.editorconfig
+.*
 *.sln*
 bower.json
 gulpfile.js
